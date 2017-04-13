@@ -164,6 +164,7 @@ class WoT_PC_Client(WoT_Client):
 
 
 	def getAuthURL(self, display='', expires_at='', nofollow=1, redirect_uri=''):
+		redirect_uri = urllib.parse.quote(redirect_uri)
 		params = {'application_id':self.application_ID, 'display':display, 'expires_at':expires_at, 'nofollow':str(nofollow), 'redirect_uri':redirect_uri}
 		if nofollow == 1:
 			data = getData(API=self.API, method='/wot/auth/login/', params=params)
@@ -249,6 +250,7 @@ class WoT_Console_Client(WoT_Client):
 
 
 	def getAuthURL(self, display, expires_at, nofollow, redirect_uri, *language):
+		redirect_uri = urllib.parse.quote(redirect_uri)
 		if all(language): language = self.language
 		params = {'application_id':self.application_ID, 'display':display, 'expires_at':expires_at, 'nofollow':nofollow, 'redirect_uri':redirect_uri, 'language':language}
 		q = []
