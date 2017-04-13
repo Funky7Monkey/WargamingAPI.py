@@ -183,7 +183,7 @@ class WoT_PC_Client(WoT_Client):
 		player = self.getPlayerData(account_id, fields=playerFields)[account_id]
 		vehFields = ['-clan','-company','-globalmap','-regular_team','-stronghold_defense','-stronghold_skirmish','-team']
 		player['vehicles'] = self.getPlayerVehicles(account_id, fields=vehFields)[account_id]
-		player['region'] = self.region
+		player['region'] = self.region.name
 		stats = utils.stats()
 		stats.WN8(player)
 		if player['clan_id'] is None:

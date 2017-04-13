@@ -6,3 +6,4 @@ __pycache__
 store.json
 dist
 *.egg-info
+*.sln
