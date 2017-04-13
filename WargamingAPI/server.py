@@ -52,7 +52,8 @@ class StoreHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(page.read().encode())
             data = dict((r.split('=')[0],r.split('=')[1]) for r in self.path.split('&')[1:])
-            with open("store.json", 'w') as f:
+            filename = self.path.split('&')[0][:-1]
+            with open('temp'+filename, 'w') as f:
                 dump(data, f)
 
     def do_POST(self):
