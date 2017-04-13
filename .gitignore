@@ -4,3 +4,5 @@ __pycache__
 *.pyproj
 .vs
 store.json
+dist
+*.egg-info
