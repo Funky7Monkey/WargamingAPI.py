@@ -192,13 +192,6 @@ class WoT_PC_Client(WoT_Client):
 			player['clan'] = self.getClanData(player['clan_id'])
 		return player
 
-#import WargamingAPI
-#from enums import Region
-#client = WargamingAPI.WoT_PC_Client('80cb760374b6e16b9229d88449631bb4', Region.NA)
-#player = client.buildPlayerStats('1005964010')
-
-#client.getAuthURL(display='popup',redirect_uri="http%3A%2F%2F45.36.235.179%3A3979/oauth")
-
 
 class WoT_Console_Client(WoT_Client):
 	def __init__(self, application_ID, platform, language='en'):
