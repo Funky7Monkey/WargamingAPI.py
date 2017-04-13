@@ -1,4 +1,11 @@
+"""
+Wargaming.net Public API Wrapper
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+A basic wrapper for the Wargaming.net Public API API.
+:copyright: (c) 2017 Funky7Monkey
+:license: MIT, see LICENSE.txt for more details.
+"""
 
 
 __title__ = 'WargamingAPI'
