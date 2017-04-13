@@ -22,9 +22,6 @@ setup(name='WargamingAPI.py',
     long_description=readme,
     include_package_data=True,
     install_requires=[''],
-    package_data={
-        'WargamingAPI':['expected_tank_values_latest.json'],
-    },
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
