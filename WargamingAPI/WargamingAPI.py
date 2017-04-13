@@ -23,7 +23,6 @@ DEALINGS IN THE SOFTWARE.
 """
 
 import urllib.request, urllib.parse
-from requests import get
 import json
 import time
 from errors import *
