@@ -304,6 +304,7 @@ class WoT_Blitz_Client(WoT_Client):
 
 
 	def getAuthURL(self, display, expires_at, nofollow, redirect_uri):
+		redirect_uri = urllib.parse.quote(redirect_uri)
 		params = {'application_id':self.application_ID, 'display':display, 'expires_at':expires_at, 'nofollow':nofollow, 'redirect_uri':redirect_uri}
 		q = []
 		for k,v in params.items():
