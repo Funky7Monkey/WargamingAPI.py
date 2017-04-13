@@ -65,6 +65,6 @@ class StoreHandler(BaseHTTPRequestHandler):
 
         self.send_response(200)
 
-server = HTTPServer(('', 3979), StoreHandler)
-print("Starting server")
-server.serve_forever()
+def server(port):
+    server = HTTPServer(('', port), StoreHandler)
+    return server

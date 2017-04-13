@@ -29,6 +29,9 @@ import time
 from errors import *
 from enums import *
 import utils
+import server
+import os.path
+import os
 
 def getData(API, method, params, scheme='https'):
 	q = []
@@ -52,42 +55,56 @@ def getData(API, method, params, scheme='https'):
 
 
 class Client:
-	def __init__(self, application_ID, language='en'):
-		self.application_ID = application_ID
-		self.language = language
+    def __init__(self, application_ID, language='en'):
+        self.application_ID = application_ID
+        self.language = language
 
-	def searchPlayer(self):
-		raise NotImplementedError
+    def searchPlayer(self):
+        raise NotImplementedError
 
-	def searchExactPlayer(self):
-		raise NotImplementedError
+    def searchExactPlayer(self):
+        raise NotImplementedError
 
-	def getPlayerData(self):
-		raise NotImplementedError
+    def getPlayerData(self):
+        raise NotImplementedError
 
-	def getPlayerVehicles(self):
-		raise NotImplementedError
+    def getPlayerVehicles(self):
+        raise NotImplementedError
 
-	def searchClan(self):
-		raise NotImplementedError
+    def searchClan(self):
+        raise NotImplementedError
 
-	def getClanData(self):
-		raise NotImplementedError
+    def getClanData(self):
+        raise NotImplementedError
 
-	def getRatingTypes(self):
-		raise NotImplementedError
+    def getRatingTypes(self):
+        raise NotImplementedError
 
-	def getPlayerRatings(self):
-		raise NotImplementedError
+    def getPlayerRatings(self):
+        raise NotImplementedError
 
-	def getAuthURL(self):
-		raise NotImplementedError
+    def getAuthURL(self):
+        raise NotImplementedError
+
+    def getAuthData(self):
+        raise NotImplementedError
 
 
 
 class WoT_Client(Client):
-	def __init__(self, application_ID, language='en'):
-		super().__init__(application_ID, language)
+    def __init__(self, application_ID, language='en'):
+        super().__init__(application_ID, language)
+
+    def getAuthData(self, port):
+        s = server.server(port)
+        while not os.path.exists("store.json"):
+            time.sleep(1)
+        data = {}
+        with open("store.json", 'r') as f:
+            data = json.load(f)
+        os.remove("store.json")
+        s.shutdown()
+        return data
 
 
 
