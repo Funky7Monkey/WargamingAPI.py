@@ -94,9 +94,9 @@ class WoT_Client(Client):
     def __init__(self, application_ID, language='en'):
         super().__init__(application_ID, language)
 
-    def getAuthData(self, port):
+    def getAuthData(self, port, filename="store.json"):
         s = server.server(port)
-        while not os.path.exists("store.json"):
+        while not os.path.exists(filename):
             time.sleep(1)
         data = {}
         with open("store.json", 'r') as f:
@@ -259,6 +259,21 @@ class WoT_Console_Client(WoT_Client):
 			q.append(k + '=' + v)
 		fieldstr = '&'.join(q)
 		return urllib.parse.quote(urllib.parse.urlunsplit(('https', self.API, 'wotx/auth/login', fieldstr, '')), safe='/=&:?%')
+
+
+	def buildPlayerStats(self, account_id):
+		playerFields = ['-statistics.company']
+		player = self.getPlayerData(account_id, fields=playerFields)[account_id]
+		vehFields = ['-company']
+		player['vehicles'] = self.getPlayerVehicles(account_id, fields=vehFields)[account_id]
+		player['region'] = self.region.name
+		stats = utils.stats()
+		stats.WN8(player)
+		if player['clan_id'] is None:
+			player['clan'] = None
+		else:
+			player['clan'] = self.getClanData(player['clan_id'])
+		return player
 
 
 
