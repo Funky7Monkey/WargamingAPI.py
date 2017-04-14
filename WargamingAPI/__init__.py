@@ -15,9 +15,11 @@ __copyright__ = 'Copyright 2017 Funky7Monkey'
 __version__ = '0.1.0'
 
 from .WargamingAPI import WoT_PC_Client, WoT_Blitz_Client, WoT_Console_Client
-from errors import *
-from enums import *
-import utils
+from .errors import *
+from .enums import *
+from . import utils
+
+from collections import namedtuple
 
 VersionInfo = namedtuple('VersionInfo', 'major minor maintenance releaselevel serial')
 

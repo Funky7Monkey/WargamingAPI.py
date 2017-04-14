@@ -25,10 +25,9 @@ DEALINGS IN THE SOFTWARE.
 import urllib.request, urllib.parse
 import json
 import time
-from errors import *
-from enums import *
-import utils
-import server
+from .errors import *
+from .enums import *
+from . import utils, server
 import os.path
 import os
 
