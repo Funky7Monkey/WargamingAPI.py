@@ -95,6 +95,7 @@ class WoT_Client(Client):
 
     def getAuthData(self, port, filename="store.json"):
         s = server.server(port)
+        s.serve_forever()
         while not os.path.exists(filename):
             time.sleep(1)
         data = {}

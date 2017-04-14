@@ -31,7 +31,6 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 class StoreHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        print(self.headers)
         if self.path == "/favicon.ico":
             self.send_response(200)
         elif self.path.startswith('/oauth'):
@@ -53,7 +52,7 @@ class StoreHandler(BaseHTTPRequestHandler):
                 self.wfile.write(page.read().encode())
             data = dict((r.split('=')[0],r.split('=')[1]) for r in self.path.split('&')[1:])
             filename = self.path.split('&')[0][:-1]
-            with open('temp'+filename, 'w') as f:
+            with open(filename, 'w') as f:
                 dump(data, f)
 
     def do_POST(self):
