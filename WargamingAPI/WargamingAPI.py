@@ -336,7 +336,8 @@ class WoT_Console_Client(WoT_Client):
     def __init__(self, application_ID, platform, language='en'):
         super().__init__(application_ID, language)
         self.platform = platform
-        self.API = 'api-' + self.platform.name.lower() + '-console.worldoftanks.com'
+        self.API = 'api-' + self.platform.name.lower() + \
+                    '-console.worldoftanks.com'
 
     def searchPlayer(
             self,
