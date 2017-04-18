@@ -28,6 +28,7 @@ from json import dump
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
+
 class StoreHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
@@ -36,7 +37,8 @@ class StoreHandler(BaseHTTPRequestHandler):
         elif self.path.startswith('/oauth'):
             self.send_response(200)
             datapart = self.path.split('?')[1]
-            data = dict((r.split('=')[0],r.split('=')[1]) for r in datapart.split('&')[1:])
+            data = dict((r.split('=')[0], r.split('=')[1])
+                        for r in datapart.split('&')[1:])
 
             with open("store.json", 'w') as fh:
                 dump(data, fh)
@@ -50,7 +52,8 @@ class StoreHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
                 self.wfile.write(page.read().encode())
-            data = dict((r.split('=')[0],r.split('=')[1]) for r in self.path.split('&')[1:])
+            data = dict((r.split('=')[0], r.split('=')[1])
+                        for r in self.path.split('&')[1:])
             filename = self.path.split('&')[0][:-1]
             with open(filename, 'w') as f:
                 dump(data, f)
@@ -63,6 +66,7 @@ class StoreHandler(BaseHTTPRequestHandler):
             fh.write(data.decode())
 
         self.send_response(200)
+
 
 def server(port):
     server = HTTPServer(('', port), StoreHandler)

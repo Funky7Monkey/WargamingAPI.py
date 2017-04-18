@@ -21,6 +21,13 @@ from . import utils
 
 from collections import namedtuple
 
-VersionInfo = namedtuple('VersionInfo', 'major minor maintenance releaselevel serial')
+VersionInfo = namedtuple(
+    'VersionInfo',
+    'major minor maintenance releaselevel serial')
 
-version_info = VersionInfo(major=0, minor=1, maintenance=0, releaselevel='final', serial=0)
+version_info = VersionInfo(
+    major=0,
+    minor=1,
+    maintenance=0,
+    releaselevel='final',
+    serial=0)
