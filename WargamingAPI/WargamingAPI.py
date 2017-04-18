@@ -101,8 +101,6 @@ class Client:
 class WoT_Client(Client):
     def __init__(self, application_ID, language='en'):
         super().__init__(application_ID, language)
-<<<<<<< HEAD
-=======
         self.defaultAuthPage = """<html><body>
         <h1>Thank you for signing in!</h1>
         <p>Powered by <a href="https://github.com/Funky7Monkey/WargamingAPI.py">WargamingAPI.py</a></p>
@@ -113,7 +111,6 @@ class WoT_Client(Client):
         s = server(port, identifier, page.encode('utf-8'))
         data = s.getData()
         return data
->>>>>>> refs/remotes/origin/auth
 
 
 class WoT_PC_Client(WoT_Client):
