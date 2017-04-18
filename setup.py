@@ -14,7 +14,7 @@ with open('README.md') as f:
 
 setup(name='WargamingAPI.py',
     author='Funky7Monkey',
-    #url='',
+    url='https://github.com/Funky7Monkey/WargamingAPI.py',
     version=version,
     packages=find_packages(),
     license='MIT',

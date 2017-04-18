@@ -28,9 +28,14 @@ import json
 import time
 from .errors import *
 from .enums import *
+<<<<<<< HEAD
 from . import utils
 import os.path
 import os
+=======
+from .server import server
+from . import utils
+>>>>>>> refs/remotes/origin/auth
 
 
 def getData(API, method, params, scheme='https'):
@@ -96,6 +101,19 @@ class Client:
 class WoT_Client(Client):
     def __init__(self, application_ID, language='en'):
         super().__init__(application_ID, language)
+<<<<<<< HEAD
+=======
+        self.defaultAuthPage = """<html><body>
+        <h1>Thank you for signing in!</h1>
+        <p>Powered by <a href="https://github.com/Funky7Monkey/WargamingAPI.py">WargamingAPI.py</a></p>
+        </body></html>"""
+
+    def getAuthData(self, port, identifier, page=''):
+        page = page or self.defaultAuthPage
+        s = server(port, identifier, page.encode('utf-8'))
+        data = s.getData()
+        return data
+>>>>>>> refs/remotes/origin/auth
 
 
 class WoT_PC_Client(WoT_Client):
@@ -117,7 +135,7 @@ class WoT_PC_Client(WoT_Client):
             'application_id': self.application_ID,
             'search': search,
             'type': stype,
-            'limit': limit,
+            'limit': str(limit),
             'fields': fields,
             'language': language}
         data = getData(
@@ -129,7 +147,7 @@ class WoT_PC_Client(WoT_Client):
     def searchExactPlayer(self, search, limit=100, fields=[], *language):
         if all(language):
             language = self.language
-        return searchPlayer(search, limit, fields, language, stype='exact')
+        return self.searchPlayer(search, 'exact', limit, fields, language)
 
     def getPlayerData(
             self,
@@ -142,7 +160,7 @@ class WoT_PC_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'account_id': account_id,
+            'account_id': str(account_id),
             'access_token': access_token,
             'extra': extra,
             'fields': fields,
@@ -167,7 +185,7 @@ class WoT_PC_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'account_id': account_id,
+            'account_id': str(account_id),
             'access_token': access_token,
             'extra': extra,
             'fields': fields,
@@ -184,7 +202,7 @@ class WoT_PC_Client(WoT_Client):
         params = {
             'application_id': self.application_ID,
             'search': search,
-            'limit': limit,
+            'limit': str(limit),
             'fields': fields,
             'language': language}
         data = getData(API=self.API, method='/wgn/clans/list/', params=params)
@@ -236,7 +254,7 @@ class WoT_PC_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'account_id': account_id,
+            'account_id': str(account_id),
             'type': period,
             'battle_type': battle_type,
             'date': date,
@@ -299,7 +317,7 @@ class WoT_Console_Client(WoT_Client):
             'application_id': self.application_ID,
             'search': search,
             'type': stype,
-            'limit': limit,
+            'limit': str(limit),
             'fields': fields,
             'language': language}
         data = getData(
@@ -311,7 +329,7 @@ class WoT_Console_Client(WoT_Client):
     def searchExactPlayer(self, search, limit=100, fields=[], *language):
         if all(language):
             language = self.language
-        return searchPlayer(search, limit, fields, language, stype='exact')
+        return self.searchPlayer(search, 'exact', limit, fields, language)
 
     def getPlayerData(
             self,
@@ -324,7 +342,7 @@ class WoT_Console_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'account_id': account_id,
+            'account_id': str(account_id),
             'access_token': access_token,
             'extra': extra,
             'fields': fields,
@@ -349,7 +367,7 @@ class WoT_Console_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'account_id': account_id,
+            'account_id': str(account_id),
             'access_token': access_token,
             'extra': extra,
             'fields': fields,
@@ -369,7 +387,7 @@ class WoT_Console_Client(WoT_Client):
         params = {
             'application_id': self.application_ID,
             'search': search,
-            'limit': limit,
+            'limit': str(limit),
             'fields': fields,
             'language': language}
         data = getData(API=self.API, method='/wotx/clans/list/', params=params)
@@ -386,7 +404,7 @@ class WoT_Console_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'clan_id': clan_id,
+            'clan_id': str(clan_id),
             'access_token': access_token,
             'extra': extra,
             'fields': fields,
@@ -420,7 +438,7 @@ class WoT_Console_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'account_id': account_id,
+            'account_id': str(account_id),
             'type': period,
             'platform': self.platform.name.lower(),
             'date': date,
@@ -468,7 +486,7 @@ class WoT_Blitz_Client(WoT_Client):
             'application_id': self.application_ID,
             'search': search,
             'type': stype,
-            'limit': limit,
+            'limit': str(limit),
             'fields': fields,
             'language': language}
         data = getData(
@@ -480,7 +498,7 @@ class WoT_Blitz_Client(WoT_Client):
     def searchExactPlayer(self, search, limit=100, fields=[], *language):
         if all(language):
             language = self.language
-        return searchPlayer(search, limit, fields, language, stype='exact')
+        return self.searchPlayer(search, 'exact', limit, fields, language)
 
     def getPlayerData(
             self,
@@ -493,7 +511,7 @@ class WoT_Blitz_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'account_id': account_id,
+            'account_id': str(account_id),
             'access_token': access_token,
             'extra': extra,
             'fields': fields,
@@ -518,7 +536,7 @@ class WoT_Blitz_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'account_id': account_id,
+            'account_id': str(account_id),
             'access_token': access_token,
             'extra': extra,
             'fields': fields,
@@ -538,7 +556,7 @@ class WoT_Blitz_Client(WoT_Client):
         params = {
             'application_id': self.application_ID,
             'search': search,
-            'limit': limit,
+            'limit': str(limit),
             'fields': fields,
             'language': language}
         data = getData(API=self.API, method='/wotb/clans/list/', params=params)
@@ -555,7 +573,7 @@ class WoT_Blitz_Client(WoT_Client):
             language = self.language
         params = {
             'application_id': self.application_ID,
-            'clan_id': clan_id,
+            'clan_id': str(clan_id),
             'access_token': access_token,
             'extra': extra,
             'fields': fields,
