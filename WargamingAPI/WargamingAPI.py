@@ -91,6 +91,12 @@ class Client:
     def getPlayerRatings(self):
         raise NotImplementedError
 
+    def getAuthURL(self):
+        raise NotImplementedError
+
+    def getAuthData(self):
+        raise NotImplementedError
+
 
 class WoT_Client(Client):
     def __init__(self, application_ID, language='en'):
@@ -256,6 +262,41 @@ class WoT_PC_Client(WoT_Client):
             method='/wot/ratings/accounts/',
             params=params)
         return data['data']
+
+    def getAuthURL(
+            self,
+            display='',
+            expires_at='',
+            nofollow=1,
+            redirect_uri=''):
+        redirect_uri = urllib.parse.quote(redirect_uri)
+        params = {
+            'application_id': self.application_ID,
+            'display': display,
+            'expires_at': expires_at,
+            'nofollow': str(nofollow),
+            'redirect_uri': redirect_uri}
+        if nofollow == 1:
+            data = getData(
+                API=self.API,
+                method='/wot/auth/login/',
+                params=params)
+            return data
+        else:
+            q = []
+            for k, v in params.items():
+                if isinstance(v, list):
+                    v = ','.join(v)
+                q.append(k + '=' + v)
+            fieldstr = '&'.join(q)
+            return urllib.parse.quote(
+                urllib.parse.urlunsplit(
+                    ('https',
+                     self.API,
+                     'wot/auth/login',
+                     fieldstr,
+                     '')),
+                safe='/=&:?%')
 
     def buildPlayerStats(self, account_id):
         playerFields = [
@@ -441,6 +482,38 @@ class WoT_Console_Client(WoT_Client):
             params=params)
         return data['data']
 
+    def getAuthURL(
+            self,
+            display,
+            expires_at,
+            nofollow,
+            redirect_uri,
+            *language):
+        redirect_uri = urllib.parse.quote(redirect_uri)
+        if all(language):
+            language = self.language
+        params = {
+            'application_id': self.application_ID,
+            'display': display,
+            'expires_at': expires_at,
+            'nofollow': nofollow,
+            'redirect_uri': redirect_uri,
+            'language': language}
+        q = []
+        for k, v in params.items():
+            if isinstance(v, list):
+                v = ','.join(v)
+            q.append(k + '=' + v)
+        fieldstr = '&'.join(q)
+        return urllib.parse.quote(
+            urllib.parse.urlunsplit(
+                ('https',
+                 self.API,
+                 'wotx/auth/login',
+                 fieldstr,
+                 '')),
+            safe='/=&:?%')
+
     def buildPlayerStats(self, account_id):
         playerFields = ['-statistics.company']
         player = self.getPlayerData(
@@ -572,3 +645,27 @@ class WoT_Blitz_Client(WoT_Client):
             'language': language}
         data = getData(API=self.API, method='/wotb/clans/info/', params=params)
         return data['data']
+
+    def getAuthURL(self, display, expires_at, nofollow, redirect_uri):
+        redirect_uri = urllib.parse.quote(redirect_uri)
+        params = {
+            'application_id': self.application_ID,
+            'display': display,
+            'expires_at': expires_at,
+            'nofollow': nofollow,
+            'redirect_uri': redirect_uri}
+        q = []
+        for k, v in params.items():
+            if isinstance(v, list):
+                v = ','.join(v)
+            q.append(k + '=' + v)
+        fieldstr = '&'.join(q)
+        return urllib.parse.quote(
+            urllib.parse.urlunsplit(
+                ('https',
+                 'api.worldoftanks.' +
+                 self.region.domain(),
+                 'wot/auth/login',
+                 fieldstr,
+                 '')),
+            safe='/=&:?%')
