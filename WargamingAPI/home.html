@@ -1,5 +1,39 @@
 <html>
+	<head>
+
+
+	<style>
+
+	.center {
+		width: 700px;
+        height: 100px;
+
+        position: absolute; /*it can be fixed too*/
+        left:0; right:0;
+        top:0; bottom:0;
+        margin:auto;
+
+        /*this to solve "the content will not be cut when the window is smaller than the content": */
+        max-width:100%;
+        max-height:100%;
+        overflow:auto;
+
+		font-size: 48px;
+		color: #999999;
+		font-family: Arial;
+		text-align: center;
+		line-height: 100px;
+	}
+
+	p {
+
+	}
+	</style>
+	</head>
+
 	<body>
-		<h1>Thank you for signing in!</h1>
+		<div class="center">
+		Thank you for signing in!
+		</div>
 	</body>
 </html>
