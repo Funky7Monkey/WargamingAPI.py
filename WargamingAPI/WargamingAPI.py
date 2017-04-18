@@ -30,8 +30,6 @@ from .errors import *
 from .enums import *
 from .server import server
 from . import utils
-import os.path
-import os
 
 
 def getData(API, method, params, scheme='https'):

@@ -22,13 +22,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-from os import curdir
-from os.path import join as pjoin
-from json import dump
-import time
-
-import socket
-
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 data = {}
