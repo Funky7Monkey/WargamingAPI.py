@@ -28,14 +28,8 @@ import json
 import time
 from .errors import *
 from .enums import *
-<<<<<<< HEAD
-from . import utils
-import os.path
-import os
-=======
 from .server import server
 from . import utils
->>>>>>> refs/remotes/origin/auth
 
 
 def getData(API, method, params, scheme='https'):
