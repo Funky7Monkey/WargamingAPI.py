@@ -26,12 +26,14 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 data = {}
 fn = ''
+webpage = ''
 
 class StoreHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         global data
         global fn
+        global webpage
         if self.path == "/favicon.ico":
             self.close_connection = False
             self.send_response(200)
@@ -40,16 +42,17 @@ class StoreHandler(BaseHTTPRequestHandler):
                 data = dict((r.split('=')[0], r.split('=')[1])
                             for r in self.path.split('&')[1:])
                 self.send_response(200)
-                with open("home.html") as page:
-                    self.send_header('Content-type', 'text/html')
-                    self.end_headers()
-                    self.wfile.write(page.read().encode())
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(webpage)
             else:
                 self.close_connection = False
 
 class server:
-    def __init__(self, port, identifier):
+    def __init__(self, port, identifier, html):
         global fn
+        global webpage
+        webpage = html
         fn = '/' + identifier
         self.s = HTTPServer(('', port), StoreHandler)
 

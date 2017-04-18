@@ -101,9 +101,14 @@ class Client:
 class WoT_Client(Client):
     def __init__(self, application_ID, language='en'):
         super().__init__(application_ID, language)
+        self.defaultAuthPage = """<html><body>
+        <h1>Thank you for signing in!</h1>
+        <p>Powered by <a href="https://github.com/Funky7Monkey/WargamingAPI.py">WargamingAPI.py</a></p>
+        </body></html>"""
 
-    def getAuthData(self, port, identifier):
-        s = server(port, identifier)
+    def getAuthData(self, port, identifier, page=''):
+        page = page or self.defaultAuthPage
+        s = server(port, identifier, page.encode('utf-8'))
         data = s.getData()
         return data
 
