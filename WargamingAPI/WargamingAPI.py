@@ -108,8 +108,8 @@ class WoT_Client(Client):
 
     def getAuthData(self, port, identifier, page=''):
         page = page or self.defaultAuthPage
-        s = server(port, identifier, page.encode('utf-8'))
-        data = s.getData()
+        s = server(port)
+        data = s.getData(identifier, page.encode('utf-8'))
         return data
 
 

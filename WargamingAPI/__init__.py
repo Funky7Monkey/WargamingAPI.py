@@ -17,6 +17,7 @@ __version__ = '0.1.4'
 from .WargamingAPI import WoT_PC_Client, WoT_Blitz_Client, WoT_Console_Client
 from .errors import *
 from .enums import *
+from .server import server
 from . import utils
 
 from collections import namedtuple

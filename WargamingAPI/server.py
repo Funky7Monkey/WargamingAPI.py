@@ -37,26 +37,26 @@ class StoreHandler(BaseHTTPRequestHandler):
         if self.path == "/favicon.ico":
             self.close_connection = False
             self.send_response(200)
+        elif fn == self.path.split('&')[0][:-1]:
+            data = dict((r.split('=')[0], r.split('=')[1])
+                        for r in self.path.split('&')[1:])
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(webpage)
         else:
-            if fn == self.path.split('&')[0][:-1]:
-                data = dict((r.split('=')[0], r.split('=')[1])
-                            for r in self.path.split('&')[1:])
-                self.send_response(200)
-                self.send_header('Content-type', 'text/html')
-                self.end_headers()
-                self.wfile.write(webpage)
-            else:
-                self.close_connection = False
+            self.close_connection = False
 
 class server:
-    def __init__(self, port, identifier, html):
-        global fn
-        global webpage
-        webpage = html
-        fn = '/' + identifier
+    def __init__(self, port):
         self.s = HTTPServer(('', port), StoreHandler)
 
-    def getData(self):
+    def getData(self, identifier, html):
         global data
+        global webpage
+        global fn
+        webpage = html
+        fn = '/' + identifier
         self.s.handle_request()
         return data
+

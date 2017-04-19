@@ -29,7 +29,7 @@ import json
 class stats:
     def __init__(self):
         with urllib.request.urlopen("http://www.wnefficiency.net/exp/expected_tank_values_latest.json") as url:
-            self.expected = json.loads(url.read().decode())
+            self.expected = json.loads(url.read().decode())['data']
 
     def calcWN8(self, exp, act):
         """http://wiki.wnefficiency.net/pages/WN8#The_Steps_of_WN8_-_The_Formula"""
@@ -89,7 +89,7 @@ class stats:
             veh['avgDef'] = vehicle['all']['dropped_capture_points']
 
             exp = None
-            for j, v in enumerate(self.expected):
+            for v in self.expected:
                 if v['IDNum'] == vehicle['tank_id']:
                     exp = v
 
