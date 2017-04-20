@@ -99,6 +99,8 @@ class Client:
 
 
 class WoT_Client(Client):
+    cache = {'tanks': {}}
+
     def __init__(self, application_ID, language='en'):
         super().__init__(application_ID, language)
         self.defaultAuthPage = """<html><body>
@@ -114,10 +116,21 @@ class WoT_Client(Client):
 
 
 class WoT_PC_Client(WoT_Client):
+
     def __init__(self, application_ID, region, language='en'):
         super().__init__(application_ID, language)
         self.region = region
         self.API = 'api.worldoftanks.' + self.region.domain()
+        self.prepareCache()
+
+    def prepareCache(self, *language):
+        print('Creating cache for '+self.region.name)
+        if all(language):
+            language = self.language
+        params = {'application_id': self.application_ID, 'fields': 'name,short_name', 'language': language}
+        self.cache['tanks']['names'] = getData(API=self.API, method='/wot/encyclopedia/vehicles/', params=params)['data']
+        print('Cache ready')
+
 
     def searchPlayer(
             self,
@@ -191,7 +204,8 @@ class WoT_PC_Client(WoT_Client):
             'in_garage': in_garage,
             'tank_id': tank_id}
         data = getData(API=self.API, method='/wot/tanks/stats/', params=params)
-        return data['data']
+        data = utils.addVehicleNames(self.cache['tanks']['names'], data['data'][account_id])
+        return data
 
     def searchClan(self, search, limit=100, fields=[], *language):
         if all(language):
@@ -318,7 +332,7 @@ class WoT_PC_Client(WoT_Client):
             '-stronghold_skirmish',
             '-team']
         player['vehicles'] = self.getPlayerVehicles(
-            account_id, fields=vehFields)[account_id]
+            account_id, fields=vehFields)
         player['region'] = self.region.name
         stats = utils.stats()
         stats.WN8(player)
