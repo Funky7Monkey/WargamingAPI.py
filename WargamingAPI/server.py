@@ -22,52 +22,41 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-from os import curdir
-from os.path import join as pjoin
-from json import dump
-
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
+data = {}
+fn = ''
+webpage = ''
 
 class StoreHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
+        global data
+        global fn
+        global webpage
         if self.path == "/favicon.ico":
+            self.close_connection = False
             self.send_response(200)
-        elif self.path.startswith('/oauth'):
-            self.send_response(200)
-            datapart = self.path.split('?')[1]
-            data = dict((r.split('=')[0], r.split('=')[1])
-                        for r in datapart.split('&')[1:])
-
-            with open("store.json", 'w') as fh:
-                dump(data, fh)
-            with open("home.html") as page:
-                self.send_header('Content-type', 'text/html')
-                self.end_headers()
-                self.wfile.write(page.read().encode())
-        else:
-            self.send_response(200)
-            with open("home.html") as page:
-                self.send_header('Content-type', 'text/html')
-                self.end_headers()
-                self.wfile.write(page.read().encode())
+        elif fn == self.path.split('&')[0][:-1]:
             data = dict((r.split('=')[0], r.split('=')[1])
                         for r in self.path.split('&')[1:])
-            filename = self.path.split('&')[0][:-1]
-            with open(filename, 'w') as f:
-                dump(data, f)
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(webpage)
+        else:
+            self.close_connection = False
 
-    def do_POST(self):
-        length = self.headers['content-length']
-        data = self.rfile.read(int(length))
+class server:
+    def __init__(self, port):
+        self.s = HTTPServer(('', port), StoreHandler)
 
-        with open("store.json", 'w') as fh:
-            fh.write(data.decode())
+    def getData(self, identifier, html):
+        global data
+        global webpage
+        global fn
+        webpage = html
+        fn = '/' + identifier
+        self.s.handle_request()
+        return data
 
-        self.send_response(200)
-
-
-def server(port):
-    server = HTTPServer(('', port), StoreHandler)
-    return server
