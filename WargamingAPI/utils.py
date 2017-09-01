@@ -26,6 +26,14 @@ import urllib.request
 import json
 
 
+def addVehicleNames(cached_data, vehicles):
+    for vehicle in vehicles:
+        if str(vehicle['tank_id']) in cached_data:
+            vehicle['name'] = cached_data[str(vehicle['tank_id'])]['name']
+            vehicle['short_name'] = cached_data[str(vehicle['tank_id'])]['short_name']
+
+    return vehicles
+
 class stats:
     def __init__(self):
         with urllib.request.urlopen("http://www.wnefficiency.net/exp/expected_tank_values_latest.json") as url:
